@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="js/guestLogin.js"></script>
+
+<style>
+
+
+@font-face {
+    font-family: Roboto-Regular;
+    src: url('fonts/Roboto-Regular.ttf');
+}
+
+
+
+body{
+
+font-family: Roboto-Regular;
+}
+
+
+.container{
+
+display: flex;
+height: 100vh;
+
+
+}
+
+.navbar{
+
+ display: flex;
+ height: 10vh;
+ justify-content: flex-end;
+ margin-top: 10vh;
+ padding-right: 10vh;
+
+}
+ 
+ .navbar div{
+
+  padding: 20px;
+  font-weight:bold;
+
+ }
+
+h3{
+
+    color: #A9A9A9;
+}
+
+h1{
+
+    display: inline;
+
+}
+
+#rightCont{
+      flex-basis: 35%;
+
+  }
+
+.getIn{
+
+   margin-top: 20vh ;
+   margin-left: 10vh;
+   text-align: center;
+
+}
+
+.intro{
+
+ margin-top: 10vh;
+ margin-left: 15vh;
+
+}
+
+input{
+   
+   
+   display: block;
+   margin: 20px auto;
+   background-color: #F1F1F1;
+   padding: 15px;
+   width: 70%;
+   border: none;
+   border-radius: 20px;
+  
+   animation-name: slideLeft;
+  animation-duration: 1s;
+
+
+}
+
+#password{
+    animation-name: slide;
+  animation-duration: 1s;
+}
+
+button{
+    display: block;
+ border-radius: 15px;
+ padding: 10px;
+ background-color: red;
+ width: 20%;
+ margin: 30px auto;
+ color: white;
+ border: none;
+
+}
+
+.imageCont img{
+  
+  width: 40%;
+  border-radius: 25px;
+  transform: rotate(10deg);
+  margin: 10px;
+  padding: 5px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  animation-name: zoom;
+  animation-duration: 2s;
+}
+
+.imageCont{
+     width: 80%;
+     margin-left: auto;
+     margin-top: 12vh;
+
+}
+
+.icon{
+   
+    width: 25px;
+    padding: 0 10px 0 0;
+  
+}
+
+@keyframes zoom {
+ from  { transform: scale(0.6,0.6) ;  opacity: 0;}
+ 
+ to  {transform: scale(1,1), rotate(10deg); opacity: 1;}
+ 
+ }
+
+
+ @keyframes slide {
+ from  { transform: translate(-50px, 0px);  opacity: 0;}
+ 
+ to  {transform: translate(0px, 0px); opacity: 1;}
+ 
+ }
+ 
+  @keyframes slideLeft {
+ from  { transform: translate(50px, 0px);  opacity: 0;}
+ 
+ to  {transform: translate(0px, 0px); opacity: 1;}
+ 
+ }
+
+
+
+
+ @media only screen and (max-width: 768px) {
+  
+  #rightCont{
+      display: none;
+
+  }
+
+  #leftCont{
+      flex-basis: 100%;
+
+  }
+
+  .intro{
+
+    text-align: center;
+    margin-top: 10vh;
+    margin-left: 0;
+  }
+
+  .getIn{
+   margin-left: 0;
+}
+
+ input{
+
+  width: 50%;
+
+ }
+ .icon{
+    display: none;
+}
+
+
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+ <div class="container">
+
+  <div id="leftCont">
+
+  <div class="intro">
+<div>
+    <img class="icon" src="images\icon.png" alt="home"> <h1>CHATSPOT</h1></div>
+    <h3>Meet intresting people all around the world</h3>
+
+  </div>  
+    
+
+ <div class="getIn">
+   <h2>Guest login</h2> 
+   <form id="guestLogin">
+    <input type="text" name="username" placeholder="username">
+    <button>Enter</button>
+   </form>
+</div>
+
+
+  </div>  
+  
+  <div id="rightCont" style="flex-basis: 65%">
+
+    <div class="navbar">
+
+    <div>Club</div>
+    <div>About</div>
+    <div>Terms</div>
+    </div>
+
+  <div class="imageCont">
+   <img src="images\home.png" alt="home">
+   <img src="images\chats.png" alt="home">
+
+  </div>
+
+  </div>
+
+</div>
+
+
+</body>
+</html>
