@@ -2,29 +2,50 @@ import React, { useState, useEffect } from "react";
 import ClubMessages from "./ClubMessages";
 import MessageBar from "./MessageBar";
 
-const PrivateChat = ({username, PrivateChatSecondUsername, socket}) => {
+const PrivateChat = ({
+  username,
+  PrivateChatSecondUsername,
+  setPrivateChatSecondUsername,
+  socket,
+}) => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   const sendPrivateMessage = (event) => {
     event.preventDefault();
     if (message) {
-      socket.emit("privateMessage", username, PrivateChatSecondUsername , message, () => setMessage(""));
+      let privateChatRoomId = `${username}&${PrivateChatSecondUsername}`;
+      socket.emit(
+        "privateMessage",
+        username,
+        PrivateChatSecondUsername,
+        message,
+        privateChatRoomId,
+        () => setMessage("")
+      );
     }
   };
 
-  useEffect(() => {
+  useEffect(async () => {
     socket.on("privateMess", (message) => {
-      setMessages([...messages, message]);
+      setMessages([...messages, message.chatData]);
     });
 
-  }, [messages]);
+    let privateMessages = await JSON.parse(
+      localStorage.getItem(`${username}&${PrivateChatSecondUsername}`)
+    );
+    privateMessages ? setMessages(privateMessages) : setMessages('');
+  }, []);
 
-  console.log(message, messages)
+  console.log(message, messages);
   return (
     <div>
-      <ClubMessages messages={messages} username={username}/>
-      <MessageBar message={message} setMessage={setMessage} sendMessage={sendPrivateMessage}/>
+      <ClubMessages messages={messages} username={username} />
+      <MessageBar
+        message={message}
+        setMessage={setMessage}
+        sendMessage={sendPrivateMessage}
+      />
     </div>
   );
 };

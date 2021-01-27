@@ -15,13 +15,16 @@ const Home = ({ location }) => {
   const [online, setOnline] = useState(false);
   const [chats, setChats] = useState(false);
   const [privateChat, setPrivateChat] = useState(false);
-  const [PrivateChatSecondUsername, setPrivateChatSecondUsername] = useState('');
+  const [PrivateChatSecondUsername, setPrivateChatSecondUsername] = useState(
+    ""
+  );
   const [navigation, setNavigation] = useState(true);
   const [username, setUsername] = useState("");
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
+  const [Inbox, setInbox] = useState([]);
   const ENDPOINT = "localhost:5000";
 
   useEffect(() => {
@@ -45,10 +48,24 @@ const Home = ({ location }) => {
       setMessages([...messages, message]);
     });
 
+    socket.on("privateMess", async (message) => {
+      let oldMessages = await JSON.parse(localStorage.getItem(message.privateRoom));
+
+      await localStorage.setItem(
+        message.privateRoom,
+        JSON.stringify(
+          oldMessages ? [...oldMessages, message.chatData] : [message.chatData]
+        )
+      );
+      if (PrivateChatSecondUsername !== message.chatData.username) {
+        setInbox([...Inbox, message.chatData]);
+      }
+    });
+
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [messages]);
+  }, [messages, Inbox]);
 
   const sendMessage = (event) => {
     event.preventDefault();
@@ -56,7 +73,6 @@ const Home = ({ location }) => {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
   };
-
 
   return (
     <div>
@@ -94,8 +110,17 @@ const Home = ({ location }) => {
       ) : (
         ""
       )}
-      {chats ? <Chats /> : ""}
-      {privateChat ? <PrivateChat username={username} PrivateChatSecondUsername={PrivateChatSecondUsername} socket={socket}/> : ""}
+      {chats ? <Chats Inbox={Inbox} /> : ""}
+      {privateChat ? (
+        <PrivateChat
+          username={username}
+          setPrivateChatSecondUsername={setPrivateChatSecondUsername}
+          PrivateChatSecondUsername={PrivateChatSecondUsername}
+          socket={socket}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };
